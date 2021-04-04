@@ -1,7 +1,10 @@
+import ThemeProvider from 'isk/styles/ThemeProvider';
+import Example from 'isk/components/Example';
+
 const App = () => (
-  <div>
-    <h1>Hi there</h1>
-  </div>
+  <ThemeProvider>
+    <Example />
+  </ThemeProvider>
 );
 
 export default App;
