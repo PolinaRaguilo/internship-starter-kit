@@ -1,7 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
@@ -39,8 +37,6 @@ module.exports = {
         options: {
           name: '[name].[ext]',
           outputPath: 'images/',
-          publicPath: '../images/',
-          esModule: false,
         },
       },
       {
@@ -49,8 +45,6 @@ module.exports = {
         options: {
           name: '[name].[ext]',
           outputPath: 'fonts/',
-          publicPath: 'fonts/',
-          esModule: false,
         },
       },
     ],
@@ -67,11 +61,7 @@ module.exports = {
     hot: true,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin({
-      overlay: false,
-    }),
-    new ErrorOverlayPlugin(),
+    new ReactRefreshWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public', 'index.html'),
     }),
