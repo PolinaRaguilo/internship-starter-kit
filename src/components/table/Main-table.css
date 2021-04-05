@@ -1,11 +1,26 @@
-.table.table{
-    margin: 0 auto;
-    width: 40%;
+.table.table {
+  margin: 0 auto;
+  width: 40%;
 }
 
-.main-title{
-    margin: 0;
-    margin-top: 20px;
-    margin-bottom: 30px;
-    text-align: center;
+.main-title {
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.btn__title {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.btn__title:focus {
+  outline: none;
+}
+
+.btn__delete.btn__delete {
+  float: right;
+  margin-top: 20px;
 }
