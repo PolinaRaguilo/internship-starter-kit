@@ -18,7 +18,8 @@ const MainTable = () => {
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then((response) => response.json())
-      .then((result) => setUsers(result));
+      .then((result) => setUsers(result))
+      .catch((err) => console.log(err));
   }, []);
 
   const usersList = users.map((item) => {
