@@ -1,6 +1,7 @@
+import MainTable from '@/components/table/Main-table';
 const App = () => (
   <div>
-    <h1>Hi there</h1>
+    <MainTable />
   </div>
 );
 
