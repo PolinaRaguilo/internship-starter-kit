@@ -7,7 +7,11 @@ const OneItem = (props) => {
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
+    if (checked) {
+      props.onSelectedId((oldItems) => [...oldItems, id]);
+    }
   };
+
   return (
     <TableRow>
       <TableCell align="center">

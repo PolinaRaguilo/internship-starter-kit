@@ -15,7 +15,7 @@ import OneItem from './one-item/One-item';
 
 const MainTable = () => {
   const [users, setUsers] = useState([]);
-  // const [checkedId, setIdChecked] = useState([]);
+  const [checkedId, setIdChecked] = useState([]);
   const getData = async () => {
     try {
       const responseData = await fetch(
@@ -32,7 +32,16 @@ const MainTable = () => {
 
   const usersList = users.map((item) => {
     const { id, name, email, phone } = item;
-    return <OneItem key={id} id={id} name={name} email={email} phone={phone} />;
+    return (
+      <OneItem
+        key={id}
+        id={id}
+        name={name}
+        email={email}
+        phone={phone}
+        onSelectedId={setIdChecked}
+      />
+    );
   });
 
   const sortList = (criterion) => {
@@ -61,12 +70,17 @@ const MainTable = () => {
     sortList('phone');
   };
 
-  const onDelete = (id) => {
-    setUsers(users.filter((item) => item.id !== id));
-  };
-
-  const onDeleteHandler = () => {
-    onDelete(3);
+  //не работает
+  const onDelete = () => {
+    for (let i = 0; i < checkedId.length; i++) {
+      // if (checkedId.includes(1)) {
+      setUsers(
+        users.filter((item) =>
+          checkedId.includes(item.id) ? item.id !== checkedId[i] : null,
+        ),
+      );
+      // }
+    }
   };
 
   return (
@@ -108,7 +122,7 @@ const MainTable = () => {
           variant="contained"
           color="secondary"
           className="btn__delete"
-          onClick={onDeleteHandler}
+          onClick={onDelete}
         >
           Delete
         </Button>
