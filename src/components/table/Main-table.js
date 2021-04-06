@@ -8,6 +8,7 @@ import {
   Button,
   Typography,
   Container,
+  CircularProgress,
 } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import './Main-table.css';
@@ -16,11 +17,14 @@ import OneItem from './one-item/One-item';
 const MainTable = () => {
   const [users, setUsers] = useState([]);
   const [checkedId, setIdChecked] = useState([]);
+  const [loading, setLoading] = useState(false);
   const getData = async () => {
+    setLoading(true);
     try {
       const responseData = await fetch(
         'https://jsonplaceholder.typicode.com/users',
       ).then((response) => response.json());
+      setLoading(false);
       setUsers(responseData);
     } catch (err) {
       console.log(err);
@@ -88,45 +92,56 @@ const MainTable = () => {
       <Typography variant="h2" className="main-title">
         Table of users
       </Typography>
-      <TableContainer>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortIdHandler}>
-                  id
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortNameHandler}>
-                  Name
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortEmailHandler}>
-                  Email
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortPhoneHandler}>
-                  Phone
-                </Button>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{usersList}</TableBody>
-        </Table>
-      </TableContainer>
-      <Container className="wrapper__btn-delete">
-        <Button
-          variant="contained"
-          color="secondary"
-          className="btn__delete"
-          onClick={onDelete}
-        >
-          Delete
-        </Button>
-      </Container>
+      {loading ? (
+        <Container className="spinner__container">
+          <CircularProgress
+            color="secondary"
+            style={{ width: '80px', height: '80px' }}
+          />
+        </Container>
+      ) : (
+        <>
+          <TableContainer>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">
+                    <Button className="btn__title" onClick={sortIdHandler}>
+                      id
+                    </Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button className="btn__title" onClick={sortNameHandler}>
+                      Name
+                    </Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button className="btn__title" onClick={sortEmailHandler}>
+                      Email
+                    </Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button className="btn__title" onClick={sortPhoneHandler}>
+                      Phone
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{usersList}</TableBody>
+            </Table>
+          </TableContainer>
+          <Container className="wrapper__btn-delete">
+            <Button
+              variant="contained"
+              color="secondary"
+              className="btn__delete"
+              onClick={onDelete}
+            >
+              Delete
+            </Button>
+          </Container>
+        </>
+      )}
     </div>
   );
 };
