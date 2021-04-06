@@ -8,6 +8,7 @@ import {
   Button,
   Typography,
   Container,
+  CircularProgress,
 } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import './Main-table.css';
@@ -16,13 +17,19 @@ import OneItem from './one-item/One-item';
 const MainTable = () => {
   const [users, setUsers] = useState([]);
   const [checkedId, setIdChecked] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [onError, setError] = useState(false);
   const getData = async () => {
     try {
       const responseData = await fetch(
         'https://jsonplaceholder.typicode.com/users',
       ).then((response) => response.json());
+      setError(false);
+      setLoading(false);
       setUsers(responseData);
     } catch (err) {
+      setError(true);
+      setLoading(true);
       console.log(err);
     }
   };
@@ -81,12 +88,8 @@ const MainTable = () => {
       // }
     }
   };
-
-  return (
-    <div className="table">
-      <Typography variant="h2" className="main-title">
-        Table of users
-      </Typography>
+  const usersTable = (
+    <>
       <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
@@ -126,6 +129,19 @@ const MainTable = () => {
           Delete
         </Button>
       </Container>
+    </>
+  );
+  return (
+    <div className="table">
+      <Typography variant="h2" className="main-title">
+        {onError ? 'Oops, error...' : 'Table of users'}
+      </Typography>
+      {loading ? (
+        <Container className="spinner__container">
+          <CircularProgress color="secondary" />
+        </Container>
+      ) : null}
+      {!(loading || onError) ? usersTable : null}
     </div>
   );
 };
