@@ -7,6 +7,7 @@ import {
   TableRow,
   Button,
   Typography,
+  Container,
 } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import './Main-table.css';
@@ -15,11 +16,18 @@ import OneItem from './one-item/One-item';
 const MainTable = () => {
   const [users, setUsers] = useState([]);
   // const [checkedId, setIdChecked] = useState([]);
+  const getData = async () => {
+    try {
+      const responseData = await fetch(
+        'https://jsonplaceholder.typicode.com/users',
+      ).then((response) => response.json());
+      setUsers(responseData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((response) => response.json())
-      .then((result) => setUsers(result))
-      .catch((err) => console.log(err));
+    getData();
   }, []);
 
   const usersList = users.map((item) => {
@@ -30,13 +38,9 @@ const MainTable = () => {
   const sortList = (criterion) => {
     const newData = users.slice().sort((a, b) => {
       if (criterion === 'id') {
-        if (a[criterion] < b[criterion]) return -1;
-        if (a[criterion] > b[criterion]) return 1;
-        return 0;
+        return a[criterion] - b[criterion];
       } else {
-        if (a[criterion].toLowerCase() < b[criterion].toLowerCase()) return -1;
-        if (a[criterion].toLowerCase() > b[criterion].toLowerCase()) return 1;
-        return 0;
+        return a[criterion].localeCompare(b[criterion]);
       }
     });
     setUsers(newData);
@@ -58,8 +62,7 @@ const MainTable = () => {
   };
 
   const onDelete = (id) => {
-    const newData = users.slice().filter((item) => item.id !== id);
-    setUsers(newData);
+    setUsers(users.filter((item) => item.id !== id));
   };
 
   const onDeleteHandler = () => {
@@ -100,14 +103,16 @@ const MainTable = () => {
           <TableBody>{usersList}</TableBody>
         </Table>
       </TableContainer>
-      <Button
-        variant="contained"
-        color="secondary"
-        className="btn__delete"
-        onClick={onDeleteHandler}
-      >
-        Delete
-      </Button>
+      <Container className="wrapper__btn-delete">
+        <Button
+          variant="contained"
+          color="secondary"
+          className="btn__delete"
+          onClick={onDeleteHandler}
+        >
+          Delete
+        </Button>
+      </Container>
     </div>
   );
 };
