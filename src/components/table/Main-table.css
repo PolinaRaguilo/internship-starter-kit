@@ -19,3 +19,18 @@
 .btn__title:focus {
   outline: none;
 }
+.wrapper__btn-delete.wrapper__btn-delete {
+  display: flex;
+  justify-content: flex-end;
+}
+.spinner__container.spinner__container {
+  text-align: center;
+  padding-top: 30%;
+  font-size: 30px;
+}
+.spinner__container .MuiCircularProgress-root {
+  width: 100px;
+}
+.table .MuiTableContainer-root {
+  margin-bottom: 20px;
+}

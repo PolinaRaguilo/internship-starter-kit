@@ -5,6 +5,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Button,
+  Typography,
+  Container,
+  CircularProgress,
 } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import './Main-table.css';
@@ -12,11 +16,21 @@ import OneItem from './one-item/One-item';
 
 const MainTable = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [onError, setError] = useState(false);
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then((response) => response.json())
-      .then((result) => setUsers(result))
-      .catch((err) => console.log(err));
+      .then((result) => {
+        setUsers(result);
+        setLoading(false);
+        setError(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(true);
+        setLoading(true);
+      });
   }, []);
   const usersList = users.map((item) => {
     const { id, name, email, phone } = item;
@@ -52,38 +66,57 @@ const MainTable = () => {
   const sortPhoneHandler = () => {
     sortList('phone');
   };
-  return (
+  const usersTable = (
     <>
-      <h2 className="main-title">Table of users</h2>
-      <TableContainer className="table">
+      <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="center">
-                <button className="btn__title" onClick={sortIdHandler}>
+                <Button className="btn__title" onClick={sortIdHandler}>
                   id
-                </button>
+                </Button>
               </TableCell>
               <TableCell align="center">
-                <button className="btn__title" onClick={sortNameHandler}>
+                <Button className="btn__title" onClick={sortNameHandler}>
                   Name
-                </button>
+                </Button>
               </TableCell>
               <TableCell align="center">
-                <button className="btn__title" onClick={sortEmailHandler}>
+                <Button className="btn__title" onClick={sortEmailHandler}>
                   Email
-                </button>
+                </Button>
               </TableCell>
               <TableCell align="center">
-                <button className="btn__title" onClick={sortPhoneHandler}>
+                <Button className="btn__title" onClick={sortPhoneHandler}>
                   Phone
-                </button>
+                </Button>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{usersList}</TableBody>
         </Table>
       </TableContainer>
+      <Container className="wrapper__btn-delete">
+        <Button variant="contained" color="secondary" className="btn__delete">
+          Delete
+        </Button>
+      </Container>
+    </>
+  );
+  return (
+    <>
+      <div className="table">
+        <Typography variant="h2" className="main-title">
+          {onError ? 'Oops, error...' : 'Table of users'}
+        </Typography>
+        {loading ? (
+          <Container className="spinner__container">
+            <CircularProgress color="secondary" />
+          </Container>
+        ) : null}
+        {!(loading || onError) ? usersTable : null}
+      </div>
     </>
   );
 };
