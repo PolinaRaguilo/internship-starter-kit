@@ -48,9 +48,8 @@ const MainTable = () => {
     const newData = users.slice().sort((a, b) => {
       if (criterion === 'id') {
         return a[criterion] - b[criterion];
-      } else {
-        return a[criterion].localeCompare(b[criterion]);
       }
+      return a[criterion].localeCompare(b[criterion]);
     });
     setUsers(newData);
   };
