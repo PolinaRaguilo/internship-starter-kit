@@ -13,9 +13,11 @@ import OneItem from './one-item/One-item';
 const MainTable = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('http://localhost:3001/users')
       .then((response) => response.json())
-      .then((result) => setUsers(result))
+      .then((result) => {
+        setUsers(result);
+      })
       .catch((err) => console.log(err));
   }, []);
   const usersList = users.map((item) => {
