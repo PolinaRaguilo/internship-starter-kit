@@ -5,6 +5,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Button,
+  Typography,
+  Container,
 } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import './Main-table.css';
@@ -12,28 +15,42 @@ import OneItem from './one-item/One-item';
 
 const MainTable = () => {
   const [users, setUsers] = useState([]);
+  const [checkedId, setIdChecked] = useState([]);
+  const getData = async () => {
+    try {
+      const responseData = await fetch(
+        'https://jsonplaceholder.typicode.com/users',
+      ).then((response) => response.json());
+      setUsers(responseData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((response) => response.json())
-      .then((result) => setUsers(result))
-      .catch((err) => console.log(err));
+    getData();
   }, []);
+
   const usersList = users.map((item) => {
     const { id, name, email, phone } = item;
-    return <OneItem key={id} id={id} name={name} email={email} phone={phone} />;
+    return (
+      <OneItem
+        key={id}
+        id={id}
+        name={name}
+        email={email}
+        phone={phone}
+        checkedIdArr={checkedId}
+        onSelectedId={setIdChecked}
+      />
+    );
   });
 
   const sortList = (criterion) => {
     const newData = users.slice().sort((a, b) => {
       if (criterion === 'id') {
-        if (a[criterion] < b[criterion]) return -1;
-        if (a[criterion] > b[criterion]) return 1;
-        return 0;
-      } else {
-        if (a[criterion].toLowerCase() < b[criterion].toLowerCase()) return -1;
-        if (a[criterion].toLowerCase() > b[criterion].toLowerCase()) return 1;
-        return 0;
+        return a[criterion] - b[criterion];
       }
+      return a[criterion].localeCompare(b[criterion]);
     });
     setUsers(newData);
   };
@@ -52,39 +69,57 @@ const MainTable = () => {
   const sortPhoneHandler = () => {
     sortList('phone');
   };
+
+  const onDelete = () => {
+    let res = users.filter((item) => !checkedId.includes(item.id));
+    setUsers(res);
+  };
+
   return (
-    <>
-      <h2 className="main-title">Table of users</h2>
-      <TableContainer className="table">
+    <div className="table">
+      <Typography variant="h2" className="main-title">
+        Table of users
+      </Typography>
+      <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="center">
-                <button className="btn__title" onClick={sortIdHandler}>
+                <Button className="btn__title" onClick={sortIdHandler}>
                   id
-                </button>
+                </Button>
               </TableCell>
               <TableCell align="center">
-                <button className="btn__title" onClick={sortNameHandler}>
+                <Button className="btn__title" onClick={sortNameHandler}>
                   Name
-                </button>
+                </Button>
               </TableCell>
               <TableCell align="center">
-                <button className="btn__title" onClick={sortEmailHandler}>
+                <Button className="btn__title" onClick={sortEmailHandler}>
                   Email
-                </button>
+                </Button>
               </TableCell>
               <TableCell align="center">
-                <button className="btn__title" onClick={sortPhoneHandler}>
+                <Button className="btn__title" onClick={sortPhoneHandler}>
                   Phone
-                </button>
+                </Button>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{usersList}</TableBody>
         </Table>
       </TableContainer>
-    </>
+      <Container className="wrapper__btn-delete">
+        <Button
+          variant="contained"
+          color="secondary"
+          className="btn__delete"
+          onClick={onDelete}
+        >
+          Delete
+        </Button>
+      </Container>
+    </div>
   );
 };
 
