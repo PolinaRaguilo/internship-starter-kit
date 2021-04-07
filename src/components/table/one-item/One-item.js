@@ -1,5 +1,5 @@
 import { TableCell, TableRow, Checkbox } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const OneItem = (props) => {
   const { id, name, email, phone } = props;
@@ -7,10 +7,17 @@ const OneItem = (props) => {
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
+  };
+
+  useEffect(() => {
+    if (props.checkedIdArr.includes(id) && checked === false) {
+      let newI = props.checkedIdArr.filter((item) => item !== id);
+      props.onSelectedId(newI);
+    }
     if (checked) {
       props.onSelectedId((oldItems) => [...oldItems, id]);
     }
-  };
+  }, [checked]);
 
   return (
     <TableRow>

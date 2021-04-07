@@ -39,6 +39,7 @@ const MainTable = () => {
         name={name}
         email={email}
         phone={phone}
+        checkedIdArr={checkedId}
         onSelectedId={setIdChecked}
       />
     );
@@ -69,17 +70,9 @@ const MainTable = () => {
     sortList('phone');
   };
 
-  //не работает
   const onDelete = () => {
-    for (let i = 0; i < checkedId.length; i++) {
-      // if (checkedId.includes(1)) {
-      setUsers(
-        users.filter((item) =>
-          checkedId.includes(item.id) ? item.id !== checkedId[i] : null,
-        ),
-      );
-      // }
-    }
+    let res = users.filter((item) => !checkedId.includes(item.id));
+    setUsers(res);
   };
 
   return (
