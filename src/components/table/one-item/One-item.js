@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { TableCell, TableRow } from '@material-ui/core';
 
 const OneItem = (props) => {
-    const {id, name, email, phone} = props
+  const { id, name, email, phone } = props;
   return (
     <TableRow>
       <TableCell align="center">{id}</TableCell>

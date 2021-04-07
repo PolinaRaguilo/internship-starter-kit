@@ -11,6 +11,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { useEffect, useState } from 'react';
+import { API_URL } from '../../config/constants';
 import './Main-table.css';
 import OneItem from './one-item/One-item';
 
@@ -19,17 +20,15 @@ const MainTable = () => {
   const [loading, setLoading] = useState(true);
   const [onError, setError] = useState(false);
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch(`${API_URL}/users`)
       .then((response) => response.json())
       .then((result) => {
         setUsers(result);
         setLoading(false);
-        setError(false);
       })
       .catch((err) => {
         console.log(err);
         setError(true);
-        setLoading(true);
       });
   }, []);
   const usersList = users.map((item) => {
