@@ -6,25 +6,16 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/actions/usersAction';
+import { recievedUsers } from '../../redux/actions/usersAction';
 import './Main-table.css';
 import OneItem from './one-item/One-item';
 
 const MainTable = () => {
-  // const [users, setUsers] = useState([]);
-  const users = useSelector((state) => state.userReducer.usersData);
+  const users = useSelector((state) => state.users.usersData);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((response) => response.json())
-      .then((result) => {
-        dispatch(getUser(result));
-      })
-      .catch((err) => console.log(err));
-  }, []);
   const usersList = users.map((item) => {
     const { id, name, email, phone } = item;
     return <OneItem key={id} id={id} name={name} email={email} phone={phone} />;
@@ -42,7 +33,7 @@ const MainTable = () => {
         return 0;
       }
     });
-    dispatch(getUser(newData));
+    dispatch(recievedUsers(newData));
   };
 
   const sortIdHandler = () => {
@@ -94,17 +85,5 @@ const MainTable = () => {
     </>
   );
 };
-
-// const mapStateToProps = (state) => {
-//   return {
-//     usersData: state.userReducer.usersData,
-//   };
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     onGetUsers: (users) => dispatch(getUser(users)),
-//   };
-// };
 
 export default MainTable;
