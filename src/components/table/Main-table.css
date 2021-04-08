@@ -3,6 +3,10 @@
   width: 40%;
 }
 
+.table .MuiTableContainer-root {
+  margin-bottom: 20px;
+}
+
 .main-title {
   margin: 0;
   margin-top: 20px;
@@ -18,4 +22,8 @@
 
 .btn__title:focus {
   outline: none;
+}
+.wrapper__btn-delete.wrapper__btn-delete {
+  display: flex;
+  justify-content: flex-end;
 }
