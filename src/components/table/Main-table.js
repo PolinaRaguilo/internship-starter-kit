@@ -29,6 +29,9 @@ const MainTable = () => {
       .catch((err) => {
         console.log(err);
         setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
   const usersList = users.map((item) => {
