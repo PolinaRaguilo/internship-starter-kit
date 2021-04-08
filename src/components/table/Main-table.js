@@ -1,4 +1,5 @@
 import {
+  Box,
   Table,
   TableBody,
   TableCell,
@@ -22,6 +23,11 @@ const MainTable = () => {
   );
   const dispatch = useDispatch();
   const [checkedId, setIdChecked] = useState([]);
+  const [direction, setDirection] = useState({
+    directionName: 'asc',
+    directionEmail: 'asc',
+    directionPhone: 'asc',
+  });
 
   const usersList = users.map((item) => {
     const { id, name, email, phone } = item;
@@ -38,29 +44,39 @@ const MainTable = () => {
     );
   });
 
-  const sortList = (criterion) => {
+  const sortList = (criterion, direction) => {
     const newData = users.slice().sort((a, b) => {
-      if (criterion === 'id') {
-        return a[criterion] - b[criterion];
+      switch (direction) {
+        case 'asc':
+          return a[criterion].localeCompare(b[criterion]);
+        case 'desc':
+          return b[criterion].localeCompare(a[criterion]);
       }
-      return a[criterion].localeCompare(b[criterion]);
     });
     dispatch(recievedUsers(newData));
   };
 
-  const sortIdHandler = () => {
-    sortList('id');
-  };
-
   const sortNameHandler = () => {
-    sortList('name');
+    setDirection({
+      ...direction,
+      directionName: direction.directionName === 'asc' ? 'desc' : 'asc',
+    });
+    sortList('name', direction.directionName);
   };
 
   const sortEmailHandler = () => {
-    sortList('email');
+    setDirection({
+      ...direction,
+      directionEmail: direction.directionEmail === 'asc' ? 'desc' : 'asc',
+    });
+    sortList('email', direction.directionEmail);
   };
   const sortPhoneHandler = () => {
-    sortList('phone');
+    setDirection({
+      ...direction,
+      directionPhone: direction.directionPhone === 'asc' ? 'desc' : 'asc',
+    });
+    sortList('phone', direction.directionPhone);
   };
   const onDelete = () => {
     let res = users.filter((item) => !checkedId.includes(item.id));
@@ -84,52 +100,46 @@ const MainTable = () => {
   }
 
   return (
-    <>
-      <div className="table">
-        <Typography variant="h2" className="main-title">
-          Table of users
-        </Typography>
-        <TableContainer>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">
-                  <Button className="btn__title" onClick={sortIdHandler}>
-                    id
-                  </Button>
-                </TableCell>
-                <TableCell align="center">
-                  <Button className="btn__title" onClick={sortNameHandler}>
-                    Name
-                  </Button>
-                </TableCell>
-                <TableCell align="center">
-                  <Button className="btn__title" onClick={sortEmailHandler}>
-                    Email
-                  </Button>
-                </TableCell>
-                <TableCell align="center">
-                  <Button className="btn__title" onClick={sortPhoneHandler}>
-                    Phone
-                  </Button>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{usersList}</TableBody>
-          </Table>
-        </TableContainer>
-        <Container className="wrapper__btn-delete">
-          <Button
-            variant="contained"
-            color="secondary"
-            className="btn__delete"
-            onClick={onDelete}
-          >
-            Delete
-          </Button>
-        </Container>
-      </div>
-    </>
+    <Box className="table">
+      <Typography variant="h2" className="main-title">
+        Table of users
+      </Typography>
+      <TableContainer>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" />
+              <TableCell align="center">
+                <Button className="btn__title" onClick={sortNameHandler}>
+                  Name
+                </Button>
+              </TableCell>
+              <TableCell align="center">
+                <Button className="btn__title" onClick={sortEmailHandler}>
+                  Email
+                </Button>
+              </TableCell>
+              <TableCell align="center">
+                <Button className="btn__title" onClick={sortPhoneHandler}>
+                  Phone
+                </Button>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{usersList}</TableBody>
+        </Table>
+      </TableContainer>
+      <Container className="wrapper__btn-delete">
+        <Button
+          variant="contained"
+          color="secondary"
+          className="btn__delete"
+          onClick={onDelete}
+        >
+          Delete
+        </Button>
+      </Container>
+    </Box>
   );
 };
 

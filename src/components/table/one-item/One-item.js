@@ -24,7 +24,6 @@ const OneItem = (props) => {
     <TableRow>
       <TableCell align="center">
         <Checkbox checked={checked} onChange={handleChange} />
-        {id}
       </TableCell>
       <TableCell align="center">{name}</TableCell>
       <TableCell align="center">{email}</TableCell>
