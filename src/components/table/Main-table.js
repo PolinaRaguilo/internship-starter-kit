@@ -11,9 +11,9 @@ import {
 } from '@material-ui/core';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { recievedUsers } from '../../redux/actions/usersAction';
-import './Main-table.css';
-import OneItem from './one-item/One-item';
+import { recievedUsers } from '@/redux/actions/usersAction';
+import '@/components/table/Main-table.css';
+import OneItem from '@/components/table/one-item/One-item';
 
 const MainTable = () => {
   const users = useSelector((state) => state.users.usersData);

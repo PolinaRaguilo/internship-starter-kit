@@ -1,7 +1,11 @@
-import { FAIL__LOAD, RECIEVED__USERS, REQUEST__USERS } from './types';
+import {
+  FAIL__LOAD,
+  RECIEVED__USERS,
+  REQUEST__USERS,
+} from '@/redux/actions/types';
 
 export const recievedUsers = (users) => {
-  return { type: RECIEVED__USERS, users };
+  return { type: RECIEVED__USERS, payload: { users } };
 };
 
 export const requestUsers = () => {

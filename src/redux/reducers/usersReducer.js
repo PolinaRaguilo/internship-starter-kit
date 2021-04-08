@@ -1,4 +1,8 @@
-import { FAIL__LOAD, RECIEVED__USERS, REQUEST__USERS } from '../actions/types';
+import {
+  FAIL__LOAD,
+  RECIEVED__USERS,
+  REQUEST__USERS,
+} from '@/redux/actions/types';
 
 const initialState = {
   usersData: [],
@@ -6,12 +10,14 @@ const initialState = {
   err: false,
 };
 const userReducer = (state = initialState, action) => {
+  const { payload } = action;
   switch (action.type) {
     case RECIEVED__USERS:
       return {
         ...state,
-        usersData: [...action.users],
+        usersData: [...payload.users],
         isLoading: false,
+        err: false,
       };
     case REQUEST__USERS:
       return {
