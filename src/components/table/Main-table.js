@@ -12,16 +12,16 @@ import {
 import { useEffect, useState } from 'react';
 import './Main-table.css';
 import OneItem from './one-item/One-item';
+import axios from 'axios';
 
 const MainTable = () => {
   const [users, setUsers] = useState([]);
   const [checkedId, setIdChecked] = useState([]);
   const getData = async () => {
     try {
-      const responseData = await fetch(
-        'http://localhost:3001/users',
-      ).then((response) => response.json());
-      setUsers(responseData);
+      await axios
+        .get('http://localhost:3001/users')
+        .then((response) => setUsers(response.data));
     } catch (err) {
       console.log(err);
     }
@@ -70,9 +70,16 @@ const MainTable = () => {
     sortList('phone');
   };
 
-  const onDelete = () => {
-    let res = users.filter((item) => !checkedId.includes(item.id));
-    setUsers(res);
+  const onDelete = async () => {
+    try {
+      for (let i = 0; i < checkedId.length; i++) {
+        await axios.delete(`http://localhost:3001/users/${checkedId[i]}`);
+        setIdChecked(checkedId.filter((item) => item !== checkedId[i]));
+      }
+      getData();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
