@@ -1,0 +1,12 @@
+.user-page__wrapper.user-page__wrapper {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.user-page__title {
+  margin-bottom: 20px;
+}
+
+.user-page__wrapper .MuiTypography-h4 {
+  margin-bottom: 8px;
+}

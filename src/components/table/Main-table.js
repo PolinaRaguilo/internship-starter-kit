@@ -10,33 +10,18 @@ import {
   Container,
   CircularProgress,
 } from '@material-ui/core';
-import { useEffect, useState } from 'react';
-import { API_URL } from '../../config/constants';
-import './Main-table.css';
-import OneItem from './one-item/One-item';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { recievedUsers } from '@/redux/actions/usersAction';
+import '@/components/table/Main-table.css';
+import OneItem from '@/components/table/one-item/One-item';
 
 const MainTable = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [onError, setError] = useState(false);
+  const { usersData: users, isLoading, err } = useSelector(
+    (state) => state.users,
+  );
+  const dispatch = useDispatch();
   const [checkedId, setIdChecked] = useState([]);
-  const getData = async () => {
-    try {
-      const responseData = await fetch(`${API_URL}/users`).then((response) =>
-        response.json(),
-      );
-      setUsers(responseData);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    getData();
-  }, []);
 
   const usersList = users.map((item) => {
     const { id, name, email, phone } = item;
@@ -60,7 +45,7 @@ const MainTable = () => {
       }
       return a[criterion].localeCompare(b[criterion]);
     });
-    setUsers(newData);
+    dispatch(recievedUsers(newData));
   };
 
   const sortIdHandler = () => {
@@ -79,63 +64,70 @@ const MainTable = () => {
   };
   const onDelete = () => {
     let res = users.filter((item) => !checkedId.includes(item.id));
-    setUsers(res);
+    dispatch(recievedUsers(res));
   };
-  const usersTable = (
-    <>
-      <TableContainer>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortIdHandler}>
-                  id
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortNameHandler}>
-                  Name
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortEmailHandler}>
-                  Email
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortPhoneHandler}>
-                  Phone
-                </Button>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{usersList}</TableBody>
-        </Table>
-      </TableContainer>
-      <Container className="wrapper__btn-delete">
-        <Button
-          variant="contained"
-          color="secondary"
-          className="btn__delete"
-          onClick={onDelete}
-        >
-          Delete
-        </Button>
+
+  if (isLoading) {
+    return (
+      <Container className="spinner__container">
+        <CircularProgress color="secondary" />
       </Container>
-    </>
-  );
+    );
+  }
+
+  if (err) {
+    return (
+      <Typography variant="h2" className="main-title">
+        Oops, error...
+      </Typography>
+    );
+  }
+
   return (
     <>
       <div className="table">
         <Typography variant="h2" className="main-title">
-          {onError ? 'Oops, error...' : 'Table of users'}
+          Table of users
         </Typography>
-        {loading ? (
-          <Container className="spinner__container">
-            <CircularProgress color="secondary" />
-          </Container>
-        ) : null}
-        {!(loading || onError) ? usersTable : null}
+        <TableContainer>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">
+                  <Button className="btn__title" onClick={sortIdHandler}>
+                    id
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button className="btn__title" onClick={sortNameHandler}>
+                    Name
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button className="btn__title" onClick={sortEmailHandler}>
+                    Email
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button className="btn__title" onClick={sortPhoneHandler}>
+                    Phone
+                  </Button>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{usersList}</TableBody>
+          </Table>
+        </TableContainer>
+        <Container className="wrapper__btn-delete">
+          <Button
+            variant="contained"
+            color="secondary"
+            className="btn__delete"
+            onClick={onDelete}
+          >
+            Delete
+          </Button>
+        </Container>
       </div>
     </>
   );
