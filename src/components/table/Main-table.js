@@ -1,4 +1,5 @@
 import {
+  Box,
   Table,
   TableBody,
   TableCell,
@@ -8,32 +9,25 @@ import {
   Button,
   Typography,
   Container,
+  CircularProgress,
 } from '@material-ui/core';
-import { useEffect, useState } from 'react';
-import './Main-table.css';
-import OneItem from './one-item/One-item';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { recievedUsers } from '@/redux/actions/usersAction';
+import '@/components/table/Main-table.css';
+import OneItem from '@/components/table/one-item/One-item';
 
 const MainTable = () => {
-  const [users, setUsers] = useState([]);
+  const { usersData: users, isLoading, err } = useSelector(
+    (state) => state.users,
+  );
+  const dispatch = useDispatch();
   const [checkedId, setIdChecked] = useState([]);
   const [direction, setDirection] = useState({
     directionName: 'asc',
     directionEmail: 'asc',
     directionPhone: 'asc',
   });
-  const getData = async () => {
-    try {
-      const responseData = await fetch(
-        'https://jsonplaceholder.typicode.com/users',
-      ).then((response) => response.json());
-      setUsers(responseData);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  useEffect(() => {
-    getData();
-  }, []);
 
   const usersList = users.map((item) => {
     const { id, name, email, phone } = item;
@@ -59,7 +53,7 @@ const MainTable = () => {
           return b[criterion].localeCompare(a[criterion]);
       }
     });
-    setUsers(newData);
+    dispatch(recievedUsers(newData));
   };
 
   const sortNameHandler = () => {
@@ -84,14 +78,29 @@ const MainTable = () => {
     });
     sortList('phone', direction.directionPhone);
   };
-
   const onDelete = () => {
     let res = users.filter((item) => !checkedId.includes(item.id));
-    setUsers(res);
+    dispatch(recievedUsers(res));
   };
 
+  if (isLoading) {
+    return (
+      <Container className="spinner__container">
+        <CircularProgress color="secondary" />
+      </Container>
+    );
+  }
+
+  if (err) {
+    return (
+      <Typography variant="h2" className="main-title">
+        Oops, error...
+      </Typography>
+    );
+  }
+
   return (
-    <div className="table">
+    <Box className="table">
       <Typography variant="h2" className="main-title">
         Table of users
       </Typography>
@@ -130,7 +139,7 @@ const MainTable = () => {
           Delete
         </Button>
       </Container>
-    </div>
+    </Box>
   );
 };
 
