@@ -3,6 +3,10 @@
   width: 40%;
 }
 
+.table .MuiTableContainer-root {
+  margin-bottom: 20px;
+}
+
 .main-title {
   margin: 0;
   margin-top: 20px;
@@ -23,6 +27,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
 .spinner__container.spinner__container {
   text-align: center;
   padding-top: 30%;

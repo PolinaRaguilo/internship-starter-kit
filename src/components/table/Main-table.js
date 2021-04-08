@@ -19,37 +19,46 @@ const MainTable = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [onError, setError] = useState(false);
+  const [checkedId, setIdChecked] = useState([]);
+  const getData = async () => {
+    try {
+      const responseData = await fetch(`${API_URL}/users`).then((response) =>
+        response.json(),
+      );
+      setUsers(responseData);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    fetch(`${API_URL}/users`)
-      .then((response) => response.json())
-      .then((result) => {
-        setUsers(result);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    getData();
   }, []);
+
   const usersList = users.map((item) => {
     const { id, name, email, phone } = item;
-    return <OneItem key={id} id={id} name={name} email={email} phone={phone} />;
+    return (
+      <OneItem
+        key={id}
+        id={id}
+        name={name}
+        email={email}
+        phone={phone}
+        checkedIdArr={checkedId}
+        onSelectedId={setIdChecked}
+      />
+    );
   });
 
   const sortList = (criterion) => {
     const newData = users.slice().sort((a, b) => {
       if (criterion === 'id') {
-        if (a[criterion] < b[criterion]) return -1;
-        if (a[criterion] > b[criterion]) return 1;
-        return 0;
-      } else {
-        if (a[criterion].toLowerCase() < b[criterion].toLowerCase()) return -1;
-        if (a[criterion].toLowerCase() > b[criterion].toLowerCase()) return 1;
-        return 0;
+        return a[criterion] - b[criterion];
       }
+      return a[criterion].localeCompare(b[criterion]);
     });
     setUsers(newData);
   };
@@ -67,6 +76,10 @@ const MainTable = () => {
   };
   const sortPhoneHandler = () => {
     sortList('phone');
+  };
+  const onDelete = () => {
+    let res = users.filter((item) => !checkedId.includes(item.id));
+    setUsers(res);
   };
   const usersTable = (
     <>
@@ -100,7 +113,12 @@ const MainTable = () => {
         </Table>
       </TableContainer>
       <Container className="wrapper__btn-delete">
-        <Button variant="contained" color="secondary" className="btn__delete">
+        <Button
+          variant="contained"
+          color="secondary"
+          className="btn__delete"
+          onClick={onDelete}
+        >
           Delete
         </Button>
       </Container>
