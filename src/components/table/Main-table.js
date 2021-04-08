@@ -55,10 +55,6 @@ const MainTable = () => {
     setUsers(newData);
   };
 
-  const sortIdHandler = () => {
-    sortList('id');
-  };
-
   const sortNameHandler = () => {
     sortList('name');
   };
@@ -84,11 +80,7 @@ const MainTable = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortIdHandler}>
-                  id
-                </Button>
-              </TableCell>
+              <TableCell align="center" />
               <TableCell align="center">
                 <Button className="btn__title" onClick={sortNameHandler}>
                   Name
