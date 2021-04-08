@@ -8,6 +8,7 @@ import {
   Button,
   Typography,
   Container,
+  CircularProgress,
 } from '@material-ui/core';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +17,9 @@ import '@/components/table/Main-table.css';
 import OneItem from '@/components/table/one-item/One-item';
 
 const MainTable = () => {
-  const users = useSelector((state) => state.users.usersData);
+  const { usersData: users, isLoading, err } = useSelector(
+    (state) => state.users,
+  );
   const dispatch = useDispatch();
   const [checkedId, setIdChecked] = useState([]);
 
@@ -59,57 +62,74 @@ const MainTable = () => {
   const sortPhoneHandler = () => {
     sortList('phone');
   };
-
   const onDelete = () => {
     let res = users.filter((item) => !checkedId.includes(item.id));
     dispatch(recievedUsers(res));
   };
 
-  return (
-    <div className="table">
-      <Typography variant="h2" className="main-title">
-        Table of users
-      </Typography>
-      <TableContainer>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortIdHandler}>
-                  id
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortNameHandler}>
-                  Name
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortEmailHandler}>
-                  Email
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortPhoneHandler}>
-                  Phone
-                </Button>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{usersList}</TableBody>
-        </Table>
-      </TableContainer>
-      <Container className="wrapper__btn-delete">
-        <Button
-          variant="contained"
-          color="secondary"
-          className="btn__delete"
-          onClick={onDelete}
-        >
-          Delete
-        </Button>
+  if (isLoading) {
+    return (
+      <Container className="spinner__container">
+        <CircularProgress color="secondary" />
       </Container>
-    </div>
+    );
+  }
+
+  if (err) {
+    return (
+      <Typography variant="h2" className="main-title">
+        Oops, error...
+      </Typography>
+    );
+  }
+
+  return (
+    <>
+      <div className="table">
+        <Typography variant="h2" className="main-title">
+          Table of users
+        </Typography>
+        <TableContainer>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">
+                  <Button className="btn__title" onClick={sortIdHandler}>
+                    id
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button className="btn__title" onClick={sortNameHandler}>
+                    Name
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button className="btn__title" onClick={sortEmailHandler}>
+                    Email
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button className="btn__title" onClick={sortPhoneHandler}>
+                    Phone
+                  </Button>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{usersList}</TableBody>
+          </Table>
+        </TableContainer>
+        <Container className="wrapper__btn-delete">
+          <Button
+            variant="contained"
+            color="secondary"
+            className="btn__delete"
+            onClick={onDelete}
+          >
+            Delete
+          </Button>
+        </Container>
+      </div>
+    </>
   );
 };
 
