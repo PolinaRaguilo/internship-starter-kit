@@ -16,6 +16,9 @@ import OneItem from './one-item/One-item';
 const MainTable = () => {
   const [users, setUsers] = useState([]);
   const [checkedId, setIdChecked] = useState([]);
+  const [directionName, setDirectionName] = useState('asc');
+  const [directionEmail, setDirectionEmail] = useState('asc');
+  const [directionPhone, setDirectionPhone] = useState('asc');
   const getData = async () => {
     try {
       const responseData = await fetch(
@@ -45,25 +48,30 @@ const MainTable = () => {
     );
   });
 
-  const sortList = (criterion) => {
+  const sortList = (criterion, direction) => {
     const newData = users.slice().sort((a, b) => {
-      if (criterion === 'id') {
-        return a[criterion] - b[criterion];
+      switch (direction) {
+        case 'asc':
+          return a[criterion].localeCompare(b[criterion]);
+        case 'desc':
+          return b[criterion].localeCompare(a[criterion]);
       }
-      return a[criterion].localeCompare(b[criterion]);
     });
     setUsers(newData);
   };
 
   const sortNameHandler = () => {
-    sortList('name');
+    setDirectionName(directionName === 'asc' ? 'desc' : 'asc');
+    sortList('name', directionName);
   };
 
   const sortEmailHandler = () => {
-    sortList('email');
+    setDirectionEmail(directionEmail === 'asc' ? 'desc' : 'asc');
+    sortList('email', directionEmail);
   };
   const sortPhoneHandler = () => {
-    sortList('phone');
+    setDirectionPhone(directionPhone === 'asc' ? 'desc' : 'asc');
+    sortList('phone', directionPhone);
   };
 
   const onDelete = () => {
