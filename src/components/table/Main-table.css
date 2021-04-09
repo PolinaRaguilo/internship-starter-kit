@@ -26,6 +26,7 @@
 .wrapper__btn-delete.wrapper__btn-delete {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .spinner__container.spinner__container {
@@ -38,4 +39,18 @@
 }
 .table .MuiTableContainer-root {
   margin-bottom: 20px;
+}
+
+.link__add{
+  margin-right: 50px;
+  font-size: 20px;
+  cursor: pointer;
+
+}
+
+.link__add:visited{
+  color:black;
+}
+.link__add:hover{
+  color: #C51162
 }

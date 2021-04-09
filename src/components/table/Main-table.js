@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { recievedUsers } from '@/redux/actions/usersAction';
 import '@/components/table/Main-table.css';
 import OneItem from '@/components/table/one-item/One-item';
+import { Link } from 'react-router-dom';
 
 const MainTable = () => {
   const { usersData: users, isLoading, err } = useSelector(
@@ -130,6 +131,9 @@ const MainTable = () => {
         </Table>
       </TableContainer>
       <Container className="wrapper__btn-delete">
+        <Link to="/add_user" className="link__add">
+          Add new user
+        </Link>
         <Button
           variant="contained"
           color="secondary"

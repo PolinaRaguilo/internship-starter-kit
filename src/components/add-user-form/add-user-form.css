@@ -1,0 +1,33 @@
+.add-title.add-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.add-wrapper {
+
+    text-align: center;
+}
+
+.add-input.add-input {
+    margin-bottom: 30px;
+    width: 300px;
+
+}
+
+.add-btn.add-btn {
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+.link-back {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.link-back:visited {
+    color: black;
+}
+
+.link-back:hover {
+    color: #C51162
+}
