@@ -1,3 +1,6 @@
 export const RECIEVED__USERS = 'RECIEVED__USERS';
 export const REQUEST__USERS = 'REQUEST__USERS';
 export const FAIL__LOAD = 'FAIL__LOAD';
+export const RECIEVED__COMMENTS = 'RECIEVED__COMMENTS';
+export const REQUEST__COMMENTS = 'REQUEST__COMMENTS';
+export const FAIL__LOAD__COMMENTS = 'FAIL__LOAD__COMMENTS';

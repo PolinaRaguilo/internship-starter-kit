@@ -10,8 +10,22 @@ import {
 import OneComment from '@/components/comments-table/one-comment/one-comment';
 import '@/components/comments-table/comments-table.css';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const CommentsTable = () => {
+  const { commentsData: comments } = useSelector((state) => state.comments);
+  const commentsList = comments.map((item) => {
+    const { id, postId, name, email, body } = item;
+    return (
+      <OneComment
+        key={id}
+        postId={postId}
+        nameComment={name}
+        email={email}
+        body={body}
+      />
+    );
+  });
   return (
     <div className="table__comments">
       <Typography variant="h3" className="title__comments">
@@ -30,9 +44,7 @@ const CommentsTable = () => {
               <TableCell align="center">Body</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            <OneComment />
-          </TableBody>
+          <TableBody>{commentsList}</TableBody>
         </Table>
       </TableContainer>
     </div>
