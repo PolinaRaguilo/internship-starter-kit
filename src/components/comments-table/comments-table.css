@@ -1,0 +1,25 @@
+.table__comments{
+    width: 50%;
+    margin: 0 auto;
+}
+
+.title__comments{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.link__back{
+    display: block;
+    text-align: center;
+    font-size: 23px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.link__back:visited{
+    color :black
+}
+
+.link__back:hover{
+    color:#c51162;
+}
