@@ -1,4 +1,5 @@
 import {
+  Box,
   Table,
   TableBody,
   TableCell,
@@ -8,27 +9,28 @@ import {
   Button,
   Typography,
   Container,
+  CircularProgress,
 } from '@material-ui/core';
-import { useEffect, useState } from 'react';
 import './Main-table.css';
 import OneItem from './one-item/One-item';
 import axios from 'axios';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { recievedUsers } from '@/redux/actions/usersAction';
+import '@/components/table/Main-table.css';
 
 const MainTable = () => {
-  const [users, setUsers] = useState([]);
+  const { usersData: users, isLoading, err } = useSelector(
+    (state) => state.users,
+  );
+  const dispatch = useDispatch();
   const [checkedId, setIdChecked] = useState([]);
-  const getData = async () => {
-    try {
-      await axios
-        .get('http://localhost:3001/users')
-        .then((response) => setUsers(response.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  useEffect(() => {
-    getData();
-  }, []);
+
+  const [direction, setDirection] = useState({
+    directionName: 'asc',
+    directionEmail: 'asc',
+    directionPhone: 'asc',
+  });
 
   const usersList = users.map((item) => {
     const { id, name, email, phone } = item;
@@ -45,29 +47,39 @@ const MainTable = () => {
     );
   });
 
-  const sortList = (criterion) => {
+  const sortList = (criterion, direction) => {
     const newData = users.slice().sort((a, b) => {
-      if (criterion === 'id') {
-        return a[criterion] - b[criterion];
+      switch (direction) {
+        case 'asc':
+          return a[criterion].localeCompare(b[criterion]);
+        case 'desc':
+          return b[criterion].localeCompare(a[criterion]);
       }
-      return a[criterion].localeCompare(b[criterion]);
     });
-    setUsers(newData);
-  };
-
-  const sortIdHandler = () => {
-    sortList('id');
+    dispatch(recievedUsers(newData));
   };
 
   const sortNameHandler = () => {
-    sortList('name');
+    setDirection({
+      ...direction,
+      directionName: direction.directionName === 'asc' ? 'desc' : 'asc',
+    });
+    sortList('name', direction.directionName);
   };
 
   const sortEmailHandler = () => {
-    sortList('email');
+    setDirection({
+      ...direction,
+      directionEmail: direction.directionEmail === 'asc' ? 'desc' : 'asc',
+    });
+    sortList('email', direction.directionEmail);
   };
   const sortPhoneHandler = () => {
-    sortList('phone');
+    setDirection({
+      ...direction,
+      directionPhone: direction.directionPhone === 'asc' ? 'desc' : 'asc',
+    });
+    sortList('phone', direction.directionPhone);
   };
 
   const onDelete = async () => {
@@ -77,15 +89,33 @@ const MainTable = () => {
           axios.delete(`http://localhost:3001/users/${id}`);
         }),
       );
-      setUsers(users.filter((item) => !checkedId.includes(item.id)));
+      dispatch(
+        recievedUsers(users.filter((item) => !checkedId.includes(item.id))),
+      );
       setIdChecked([]);
     } catch (err) {
       console.log(err);
     }
   };
 
+  if (isLoading) {
+    return (
+      <Container className="spinner__container">
+        <CircularProgress color="secondary" />
+      </Container>
+    );
+  }
+
+  if (err) {
+    return (
+      <Typography variant="h2" className="main-title">
+        Oops, error...
+      </Typography>
+    );
+  }
+
   return (
-    <div className="table">
+    <Box className="table">
       <Typography variant="h2" className="main-title">
         Table of users
       </Typography>
@@ -93,11 +123,7 @@ const MainTable = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">
-                <Button className="btn__title" onClick={sortIdHandler}>
-                  id
-                </Button>
-              </TableCell>
+              <TableCell align="center" />
               <TableCell align="center">
                 <Button className="btn__title" onClick={sortNameHandler}>
                   Name
@@ -128,7 +154,7 @@ const MainTable = () => {
           Delete
         </Button>
       </Container>
-    </div>
+    </Box>
   );
 };
 
