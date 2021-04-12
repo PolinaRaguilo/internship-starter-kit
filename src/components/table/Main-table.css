@@ -27,6 +27,7 @@
 .wrapper__btn-delete.wrapper__btn-delete {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .spinner__container.spinner__container {
@@ -43,6 +44,18 @@
   margin-bottom: 20px;
 }
 
+.link__add {
+  margin-right: 50px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.link__add:visited {
+  color: black;
+}
+.link__add:hover {
+  color: #c51162;
+}
 .link__comments {
   display: block;
   text-align: center;
@@ -50,9 +63,9 @@
   font-size: 26px;
 }
 
-.link__comments:visited{
-  color: black
+.link__comments:visited {
+  color: black;
 }
-.link__comments:hover{
-  color: #C51162;
+.link__comments:hover {
+  color: #c51162;
 }

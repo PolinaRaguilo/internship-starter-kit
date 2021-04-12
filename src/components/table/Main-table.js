@@ -149,6 +149,9 @@ const MainTable = () => {
         </Table>
       </TableContainer>
       <Container className="wrapper__btn-delete">
+        <Link to="/add_user" className="link__add">
+          Add new user
+        </Link>
         <Button
           variant="contained"
           color="secondary"
