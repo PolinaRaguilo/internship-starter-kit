@@ -3,6 +3,7 @@ import {
   RECIEVED__USERS,
   REQUEST__USERS,
 } from '@/redux/actions/types';
+import produce from 'immer';
 
 const initialState = {
   usersData: [],
@@ -13,23 +14,20 @@ const userReducer = (state = initialState, action) => {
   const { payload } = action;
   switch (action.type) {
     case RECIEVED__USERS:
-      return {
-        ...state,
-        usersData: [...payload.users],
-        isLoading: false,
-        err: false,
-      };
+      return produce(state, (draft) => {
+        (draft.usersData = payload.users),
+          (draft.isLoading = false),
+          (draft.err = false);
+      });
     case REQUEST__USERS:
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return produce(state, (draft) => {
+        draft.isLoading = true;
+      });
+
     case FAIL__LOAD:
-      return {
-        ...state,
-        isLoading: false,
-        err: true,
-      };
+      return produce(state, (draft) => {
+        (draft.isLoading = false), (draft.err = true);
+      });
     default:
       return state;
   }
