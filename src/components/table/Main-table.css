@@ -7,10 +7,10 @@
   margin-bottom: 20px;
 }
 
-.main-title {
+.main-title.main-title {
   margin: 0;
   margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
@@ -23,6 +23,7 @@
 .btn__title:focus {
   outline: none;
 }
+
 .wrapper__btn-delete.wrapper__btn-delete {
   display: flex;
   justify-content: flex-end;
@@ -33,9 +34,25 @@
   padding-top: 30%;
   font-size: 30px;
 }
+
 .spinner__container .MuiCircularProgress-root {
   width: 100px;
 }
+
 .table .MuiTableContainer-root {
   margin-bottom: 20px;
+}
+
+.link__comments {
+  display: block;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+.link__comments:visited{
+  color: black
+}
+.link__comments:hover{
+  color: #C51162;
 }

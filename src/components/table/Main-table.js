@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { recievedUsers } from '@/redux/actions/usersAction';
 import '@/components/table/Main-table.css';
+import { Link } from 'react-router-dom';
 
 const MainTable = () => {
   const { usersData: users, isLoading, err } = useSelector(
@@ -119,6 +120,9 @@ const MainTable = () => {
       <Typography variant="h2" className="main-title">
         Table of users
       </Typography>
+      <Link to="/comments" className="link__comments">
+        Go to comments page
+      </Link>
       <TableContainer>
         <Table aria-label="simple table">
           <TableHead>

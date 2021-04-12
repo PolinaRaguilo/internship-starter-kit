@@ -1,7 +1,7 @@
 import {
-  FAIL__LOAD,
-  RECIEVED__USERS,
-  REQUEST__USERS,
+  FETCH__USERS,
+  FETCH__ERROR__USERS,
+  FETCH__START__USERS,
 } from '@/redux/actions/types';
 
 const initialState = {
@@ -10,21 +10,21 @@ const initialState = {
   err: false,
 };
 const userReducer = (state = initialState, action) => {
-  const { payload } = action;
-  switch (action.type) {
-    case RECIEVED__USERS:
+  const { payload, type } = action;
+  switch (type) {
+    case FETCH__USERS:
       return {
         ...state,
         usersData: [...payload.users],
         isLoading: false,
         err: false,
       };
-    case REQUEST__USERS:
+    case FETCH__START__USERS:
       return {
         ...state,
         isLoading: true,
       };
-    case FAIL__LOAD:
+    case FETCH__ERROR__USERS:
       return {
         ...state,
         isLoading: false,
