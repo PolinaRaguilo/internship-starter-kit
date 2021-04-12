@@ -1,5 +1,5 @@
 import MainTable from '@/components/table/Main-table';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import UserPage from '@/components/user-page/User-page';
 import { useEffect } from 'react';
 import { fethcUsers } from '@/redux/actions/usersAction';
@@ -17,6 +17,7 @@ const App = () => {
         <Route exact path="/" component={MainTable} />
         <Route path="/user/:id" component={UserPage} />
         <Route path="/add_user" component={AddUserForm} />
+        <Redirect exact to="/" />
       </Switch>
     </BrowserRouter>
   );

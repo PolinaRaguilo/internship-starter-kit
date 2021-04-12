@@ -1,6 +1,6 @@
 import { Button, Container, TextField, Typography } from '@material-ui/core';
 import '@/components/add-user-form/add-user-form.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../config/constants';
@@ -9,13 +9,14 @@ import { fethcUsers } from '../../redux/actions/usersAction';
 import { nanoid } from 'nanoid';
 
 const AddUserForm = () => {
-  const [newUser, setNewUser] = useState({
+  const initialUser = {
     name: '',
     email: '',
     phone: '',
-  });
+  };
+  const [newUser, setNewUser] = useState(initialUser);
   const dispatch = useDispatch();
-  const newId = nanoid(5);
+  const history = useHistory();
   const onInputChange = (e) => {
     const { id, value } = e.target;
     setNewUser({
@@ -27,12 +28,12 @@ const AddUserForm = () => {
     e.preventDefault();
     try {
       await axios.post(`${API_URL}/users`, {
-        id: newId,
+        id: nanoid(5),
         ...newUser,
       });
-      setNewUser({ name: '', email: '', phone: '' });
+      setNewUser(initialUser);
       dispatch(fethcUsers());
-      alert('Success!');
+      history.push('/');
     } catch (err) {
       console.log(err);
       alert('Try again!');
