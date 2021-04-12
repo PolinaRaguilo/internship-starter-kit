@@ -5,20 +5,18 @@ import { useEffect } from 'react';
 import { fethcUsers } from '@/redux/actions/usersAction';
 import { useDispatch } from 'react-redux';
 import CommentsTable from '@/components/comments-table/comments-table';
-import { fetchComments } from '@/redux/actions/commentsAction';
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fethcUsers());
-    dispatch(fetchComments());
   }, []);
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={MainTable} />
         <Route path="/user/:id" component={UserPage} />
-        <Route exact path="/comments" component={CommentsTable} />
+        <Route path="/comments" component={CommentsTable} />
+        <Route path="/" component={MainTable} />
       </Switch>
     </BrowserRouter>
   );

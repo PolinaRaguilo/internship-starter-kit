@@ -1,4 +1,7 @@
 import {
+  Box,
+  CircularProgress,
+  Container,
   Table,
   TableBody,
   TableCell,
@@ -10,10 +13,19 @@ import {
 import OneComment from '@/components/comments-table/one-comment/one-comment';
 import '@/components/comments-table/comments-table.css';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchComments } from '@/redux/actions/commentsAction';
 
 const CommentsTable = () => {
-  const { commentsData: comments } = useSelector((state) => state.comments);
+  const dispatch = useDispatch();
+  const { commentsData: comments, isLoading, errComments } = useSelector(
+    (state) => state.comments,
+  );
+  useEffect(() => {
+    dispatch(fetchComments());
+  }, []);
+
   const commentsList = comments.map((item) => {
     const { id, postId, name, email, body } = item;
     return (
@@ -26,8 +38,22 @@ const CommentsTable = () => {
       />
     );
   });
+  if (isLoading) {
+    return (
+      <Container className="spinner__container">
+        <CircularProgress color="secondary" />
+      </Container>
+    );
+  }
+  if (errComments) {
+    return (
+      <Typography variant="h2" className="main-title">
+        Oops, error...
+      </Typography>
+    );
+  }
   return (
-    <div className="table__comments">
+    <Box className="table__comments">
       <Typography variant="h3" className="title__comments">
         Comments page
       </Typography>
@@ -47,7 +73,7 @@ const CommentsTable = () => {
           <TableBody>{commentsList}</TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Box>
   );
 };
 

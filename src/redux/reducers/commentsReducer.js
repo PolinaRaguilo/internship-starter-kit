@@ -1,33 +1,33 @@
 import {
-  RECIEVED__COMMENTS,
-  REQUEST__COMMENTS,
-  FAIL__LOAD__COMMENTS,
+  FETCH__COMMENTS,
+  FETCH__START__COMMENTS,
+  FETCH__ERROR__COMMENTS,
 } from '@/redux/actions/types';
 
 const initialState = {
   commentsData: [],
-  isLoadingComments: true,
+  isLoading: true,
   errComments: false,
 };
 const commentsReducer = (state = initialState, action) => {
-  const { payload } = action;
-  switch (action.type) {
-    case RECIEVED__COMMENTS:
+  const { payload, type } = action;
+  switch (type) {
+    case FETCH__COMMENTS:
       return {
         ...state,
         commentsData: [...payload.comments],
-        isLoadingComments: false,
+        isLoading: false,
         errComments: false,
       };
-    case REQUEST__COMMENTS:
+    case FETCH__START__COMMENTS:
       return {
         ...state,
-        isLoadingComments: true,
+        isLoading: true,
       };
-    case FAIL__LOAD__COMMENTS:
+    case FETCH__ERROR__COMMENTS:
       return {
         ...state,
-        isLoadingComments: false,
+        isLoading: false,
         errComments: true,
       };
     default:
