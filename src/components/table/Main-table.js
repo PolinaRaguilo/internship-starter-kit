@@ -72,11 +72,13 @@ const MainTable = () => {
 
   const onDelete = async () => {
     try {
-      for (let i = 0; i < checkedId.length; i++) {
-        await axios.delete(`http://localhost:3001/users/${checkedId[i]}`);
-        setIdChecked(checkedId.filter((item) => item !== checkedId[i]));
-      }
-      getData();
+      await Promise.all(
+        checkedId.map((id) => {
+          axios.delete(`http://localhost:3001/users/${id}`);
+        }),
+      );
+      setUsers(users.filter((item) => !checkedId.includes(item.id)));
+      setIdChecked([]);
     } catch (err) {
       console.log(err);
     }
