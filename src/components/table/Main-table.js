@@ -11,11 +11,13 @@ import {
   Container,
   CircularProgress,
 } from '@material-ui/core';
+import './Main-table.css';
+import OneItem from './one-item/One-item';
+import axios from 'axios';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { recievedUsers } from '@/redux/actions/usersAction';
 import '@/components/table/Main-table.css';
-import OneItem from '@/components/table/one-item/One-item';
 
 const MainTable = () => {
   const { usersData: users, isLoading, err } = useSelector(
@@ -23,6 +25,7 @@ const MainTable = () => {
   );
   const dispatch = useDispatch();
   const [checkedId, setIdChecked] = useState([]);
+
   const [direction, setDirection] = useState({
     directionName: 'asc',
     directionEmail: 'asc',
@@ -78,9 +81,21 @@ const MainTable = () => {
     });
     sortList('phone', direction.directionPhone);
   };
-  const onDelete = () => {
-    let res = users.filter((item) => !checkedId.includes(item.id));
-    dispatch(recievedUsers(res));
+
+  const onDelete = async () => {
+    try {
+      await Promise.all(
+        checkedId.map((id) =>
+          axios.delete(`http://localhost:3001/users/${id}`),
+        ),
+      );
+      dispatch(
+        recievedUsers(users.filter((item) => !checkedId.includes(item.id))),
+      );
+      setIdChecked([]);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   if (isLoading) {
