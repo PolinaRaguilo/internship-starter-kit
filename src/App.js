@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { fethcUsers } from '@/redux/actions/usersAction';
 import { useDispatch } from 'react-redux';
 import AddUserForm from '@/components/add-user-form/add-user-form';
+import CommentsTable from '@/components/comments-table/comments-table';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,8 @@ const App = () => {
         <Route exact path="/" component={MainTable} />
         <Route path="/user/:id" component={UserPage} />
         <Route path="/add_user" component={AddUserForm} />
-        <Redirect exact to="/" />
+        <Route path="/comments" component={CommentsTable} />
+        <Redirect path="*" to="/" />
       </Switch>
     </BrowserRouter>
   );

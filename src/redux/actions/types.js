@@ -1,3 +1,7 @@
-export const RECIEVED__USERS = 'RECIEVED__USERS';
-export const REQUEST__USERS = 'REQUEST__USERS';
-export const FAIL__LOAD = 'FAIL__LOAD';
+export const FETCH__USERS = 'RECIEVE__USERS';
+export const FETCH__START__USERS = 'FETCH__START__USERS';
+export const FETCH__ERROR__USERS = 'FETCH__ERROR__USERS';
+
+export const FETCH__START__COMMENTS = 'FETCH__START__COMMENTS';
+export const FETCH__ERROR__COMMENTS = 'FETCH__ERROR__COMMENTS';
+export const FETCH__COMMENTS = 'RECIEVE__COMMENTS';
