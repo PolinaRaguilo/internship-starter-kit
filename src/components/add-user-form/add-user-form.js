@@ -24,6 +24,7 @@ const AddUserForm = () => {
       [id]: value,
     });
   };
+
   const addUser = async (e) => {
     e.preventDefault();
     try {

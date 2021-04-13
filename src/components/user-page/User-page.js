@@ -4,6 +4,7 @@ import '@/components/user-page/User-page.css';
 import { useParams } from 'react-router';
 import EditForm from './edit-form/edit-form';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const UserPage = () => {
   const usersTableData = useSelector((state) => state.users.usersData);
@@ -26,7 +27,7 @@ const UserPage = () => {
     return <Typography variant="h4">No such user...</Typography>;
   }
 
-  const { name: userNAme, email, website } = currUser;
+  const { name: userName, email, website, phone } = currUser;
   const { city, street, suite, zipcode } = currUser.address;
   const { name } = currUser.company;
 
@@ -35,9 +36,13 @@ const UserPage = () => {
       <Typography variant="h3" className="user-page__title">
         User infromation
       </Typography>
-      <Container>
-        <Typography variant="h4">Name: {userNAme}</Typography>
+      <Link to="/" className="link-back">
+        Back
+      </Link>
+      <Container className="inform__wrapper">
+        <Typography variant="h4">Name: {userName}</Typography>
         <Typography variant="h4">Email: {email}</Typography>
+        <Typography variant="h4">Phone: {phone}</Typography>
         <Typography variant="h4">Website: {website}</Typography>
         <Typography variant="h4">City: {city}</Typography>
         <Typography variant="h4">Street: {street}</Typography>
@@ -52,7 +57,7 @@ const UserPage = () => {
       >
         {isEdit ? 'Close edit' : 'Edit User'}
       </Button>
-      {isEdit && <EditForm />}
+      {isEdit && <EditForm currentUser={currUser} />}
     </Container>
   );
 };

@@ -10,3 +10,9 @@
 .user-page__wrapper .MuiTypography-h4 {
   margin-bottom: 8px;
 }
+
+.user-page__wrapper .link-back {
+  display: block;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
