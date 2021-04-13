@@ -10,27 +10,44 @@ const initialState = {
   isLoading: true,
   err: false,
 };
-const userReducer = (state = initialState, action) => {
-  const { payload } = action;
-  switch (action.type) {
+const userReducer = produce((draft, action) => {
+  const { payload, type } = action;
+  switch (type) {
     case RECIEVED__USERS:
-      return produce(state, (draft) => {
-        (draft.usersData = payload.users),
-          (draft.isLoading = false),
-          (draft.err = false);
-      });
+      draft.usersData = payload.users;
+      draft.isLoading = false;
+      draft.err = false;
+      break;
     case REQUEST__USERS:
-      return produce(state, (draft) => {
-        draft.isLoading = true;
-      });
-
+      draft.isLoading = true;
+      break;
     case FAIL__LOAD:
-      return produce(state, (draft) => {
-        (draft.isLoading = false), (draft.err = true);
-      });
-    default:
-      return state;
+      draft.isLoading = false;
+      draft.err = true;
+      break;
   }
-};
+}, initialState);
+// const userReducer = (state = initialState, action) => {
+//   const { payload } = action;
+//   switch (action.type) {
+//     case RECIEVED__USERS:
+//       return produce(state, (draft) => {
+//         (draft.usersData = payload.users),
+//           (draft.isLoading = false),
+//           (draft.err = false);
+//       });
+//     case REQUEST__USERS:
+//       return produce(state, (draft) => {
+//         draft.isLoading = true;
+//       });
+
+//     case FAIL__LOAD:
+//       return produce(state, (draft) => {
+//         (draft.isLoading = false), (draft.err = true);
+//       });
+//     default:
+//       return state;
+//   }
+// };
 
 export { userReducer };
