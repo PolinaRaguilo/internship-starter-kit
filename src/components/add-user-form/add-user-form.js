@@ -3,9 +3,9 @@ import '@/components/add-user-form/add-user-form.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../../config/constants';
+import { API_URL } from '@/config/constants';
 import { useDispatch } from 'react-redux';
-import { fethcUsers } from '../../redux/actions/usersAction';
+import { fethcUsers } from '@/redux/actions/usersAction';
 import { nanoid } from 'nanoid';
 
 const AddUserForm = () => {

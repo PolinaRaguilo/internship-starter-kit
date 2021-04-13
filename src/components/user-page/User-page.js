@@ -2,7 +2,7 @@ import { Button, Container, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import '@/components/user-page/User-page.css';
 import { useParams } from 'react-router';
-import EditForm from './edit-form/edit-form';
+import EditForm from '@/components/user-page/edit-form/edit-form';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 

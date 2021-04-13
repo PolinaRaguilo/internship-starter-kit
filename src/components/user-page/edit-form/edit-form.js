@@ -2,9 +2,9 @@ import { Button, Container, TextField, Typography } from '@material-ui/core';
 import '@/components/user-page/edit-form/edit-form.css';
 import { useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../../../config/constants';
+import { API_URL } from '@/config/constants';
 import { useDispatch } from 'react-redux';
-import { updateUsers } from '../../../redux/actions/usersAction';
+import { updateUsers } from '@/redux/actions/usersAction';
 
 const EditForm = (props) => {
   const dispatch = useDispatch();
