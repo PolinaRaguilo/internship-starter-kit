@@ -2,6 +2,7 @@ import {
   FETCH__USERS,
   FETCH__ERROR__USERS,
   FETCH__START__USERS,
+  UPDATE__USER,
 } from '@/redux/actions/types';
 
 const initialState = {
@@ -29,6 +30,13 @@ const userReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         err: true,
+      };
+    case UPDATE__USER:
+      return {
+        ...state,
+        usersData: state.usersData.map((user) =>
+          user.id === payload.updateUser.id ? payload.updateUser : user,
+        ),
       };
     default:
       return state;

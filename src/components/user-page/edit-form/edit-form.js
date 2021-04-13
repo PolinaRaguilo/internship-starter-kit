@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../../config/constants';
 import { useDispatch } from 'react-redux';
-import { fethcUsers } from '../../../redux/actions/usersAction';
+import { updateUsers } from '../../../redux/actions/usersAction';
 
 const EditForm = (props) => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const EditForm = (props) => {
     };
     try {
       await axios.put(`${API_URL}/users/${props.currentUser.id}`, newData);
-      dispatch(fethcUsers());
+      dispatch(updateUsers(newData));
     } catch (err) {
       console.log(err);
     }
