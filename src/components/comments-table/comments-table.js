@@ -68,6 +68,7 @@ const CommentsTable = () => {
               <TableCell align="center">Name</TableCell>
               <TableCell align="center">Email</TableCell>
               <TableCell align="center">Body</TableCell>
+              <TableCell align="center">Unique Symbols</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{commentsList}</TableBody>
