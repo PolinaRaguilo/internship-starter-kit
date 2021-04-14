@@ -123,6 +123,9 @@ const MainTable = () => {
       <Link to="/comments" className="link__comments">
         Go to comments page
       </Link>
+      <Link to="/list" className="link__comments">
+        tree-list
+      </Link>
       <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
