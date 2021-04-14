@@ -6,7 +6,6 @@ import { fethcUsers } from '@/redux/actions/usersAction';
 import { useDispatch } from 'react-redux';
 import AddUserForm from '@/components/add-user-form/add-user-form';
 import CommentsTable from '@/components/comments-table/comments-table';
-import TreeList from '@/components/tree-list/Tree-list';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -20,7 +19,6 @@ const App = () => {
         <Route path="/user/:id" component={UserPage} />
         <Route path="/add_user" component={AddUserForm} />
         <Route path="/comments" component={CommentsTable} />
-        <Route path="/list" component={TreeList} />
         <Redirect path="*" to="/" />
       </Switch>
     </BrowserRouter>
