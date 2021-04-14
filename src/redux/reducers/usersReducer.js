@@ -4,43 +4,34 @@ import {
   FETCH__START__USERS,
   UPDATE__USER,
 } from '@/redux/actions/types';
+import produce from 'immer';
 
 const initialState = {
   usersData: [],
   isLoading: true,
   err: false,
 };
-const userReducer = (state = initialState, action) => {
+
+const userReducer = produce((draft, action) => {
   const { payload, type } = action;
   switch (type) {
     case FETCH__USERS:
-      return {
-        ...state,
-        usersData: [...payload.users],
-        isLoading: false,
-        err: false,
-      };
+      draft.usersData = payload.users;
+      draft.isLoading = false;
+      draft.err = false;
+      break;
     case FETCH__START__USERS:
-      return {
-        ...state,
-        isLoading: true,
-      };
+      draft.isLoading = true;
+      break;
     case FETCH__ERROR__USERS:
-      return {
-        ...state,
-        isLoading: false,
-        err: true,
-      };
+      draft.isLoading = false;
+      draft.err = true;
+      break;
     case UPDATE__USER:
-      return {
-        ...state,
-        usersData: state.usersData.map((user) =>
-          user.id === payload.updateUser.id ? payload.updateUser : user,
-        ),
-      };
-    default:
-      return state;
+      draft.usersData = draft.usersData.map((user) =>
+        user.id === payload.updateUser.id ? payload.updateUser : user,
+      );
   }
-};
+}, initialState);
 
 export { userReducer };
