@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "name": "Leanne Graham",
+      "name": "Polina1",
       "username": "Bret",
       "email": "Sincere@april.biz",
       "address": {
@@ -15,7 +15,7 @@
           "lng": "81.1496"
         }
       },
-      "phone": "1-770-736-8031 x56442",
+      "phone": "345435",
       "website": "hildegard.org",
       "company": {
         "name": "Romaguera-Crona",
@@ -145,7 +145,7 @@
       "phone": "80292157518"
     }
   ],
-  "comments":[
+  "comments": [
     {
       "postId": 1,
       "id": 1,

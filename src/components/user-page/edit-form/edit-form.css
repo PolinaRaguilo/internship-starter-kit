@@ -1,0 +1,25 @@
+.edit__wrapper {
+  margin-top: 15px;
+}
+
+.edit__title {
+  color: red;
+}
+
+.edit__form {
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.edit__input.edit__input {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  width: 350px;
+}
+
+.edit-save__btn.edit-save__btn {
+  width: 150px;
+  height: 55px;
+}

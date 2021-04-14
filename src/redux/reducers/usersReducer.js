@@ -2,6 +2,7 @@ import {
   FETCH__USERS,
   FETCH__ERROR__USERS,
   FETCH__START__USERS,
+  UPDATE__USER,
 } from '@/redux/actions/types';
 import produce from 'immer';
 
@@ -26,6 +27,10 @@ const userReducer = produce((draft, action) => {
       draft.isLoading = false;
       draft.err = true;
       break;
+    case UPDATE__USER:
+      draft.usersData = draft.usersData.map((user) =>
+        user.id === payload.updateUser.id ? payload.updateUser : user,
+      );
   }
 }, initialState);
 

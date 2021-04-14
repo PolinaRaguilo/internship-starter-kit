@@ -2,6 +2,7 @@ import {
   FETCH__ERROR__USERS,
   FETCH__USERS,
   FETCH__START__USERS,
+  UPDATE__USER,
 } from '@/redux/actions/types';
 import { API_URL } from '@/config/constants';
 
@@ -15,6 +16,10 @@ export const requestUsers = () => {
 
 export const failLoadUsers = () => {
   return { type: FETCH__ERROR__USERS };
+};
+
+export const updateUsers = (updateUser) => {
+  return { type: UPDATE__USER, payload: { updateUser } };
 };
 
 export const fethcUsers = () => async (dispatch) => {
