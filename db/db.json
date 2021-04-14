@@ -2,9 +2,9 @@
   "users": [
     {
       "id": 1,
-      "name": "Polina1",
+      "name": "Polina",
       "username": "Bret",
-      "email": "Sincere@april.biz",
+      "email": "polinar2007@mail.ru",
       "address": {
         "street": "Kulas Light",
         "suite": "Apt. 556",
@@ -15,12 +15,16 @@
           "lng": "81.1496"
         }
       },
-      "phone": "345435",
+      "phone": "23897456",
       "website": "hildegard.org",
       "company": {
         "name": "Romaguera-Crona",
         "catchPhrase": "Multi-layered client-server neural-net",
         "bs": "harness real-time e-markets"
+      },
+      "userName": "e",
+      "data": {
+        "userName": "d"
       }
     },
     {
