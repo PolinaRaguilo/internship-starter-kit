@@ -7,7 +7,7 @@
     "dev": "webpack --mode development",
     "start": "webpack serve",
     "json-server": "json-server --watch  -p 3001 ./db/db.json",
-    "tree-start":"json-server --watch  -p 3002 ./tree-list/tree.json"
+    "tree-start":"json-server --watch  -p 3002 tree.json"
   },
   "repository": {
     "type": "git",
