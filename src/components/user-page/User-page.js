@@ -57,7 +57,7 @@ const UserPage = () => {
       >
         {isEdit ? 'Close edit' : 'Edit User'}
       </Button>
-      {isEdit && <EditForm currentUser={currUser} />}
+      {isEdit && <EditForm currentUser={currUser} setEdit={setEdit} />}
     </Container>
   );
 };

@@ -35,6 +35,7 @@ const EditForm = (props) => {
     };
     try {
       await axios.put(`${API_URL}/users/${props.currentUser.id}`, newData);
+      props.setEdit(false);
       dispatch(updateUsers(newData));
     } catch (err) {
       console.log(err);
