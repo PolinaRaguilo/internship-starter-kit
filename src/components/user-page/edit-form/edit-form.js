@@ -1,37 +1,29 @@
-import { Button, Container, TextField, Typography } from '@material-ui/core';
+import { Button, Container, Typography } from '@material-ui/core';
 import '@/components/user-page/edit-form/edit-form.css';
-import { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '@/config/constants';
 import { useDispatch } from 'react-redux';
 import { updateUsers } from '@/redux/actions/usersAction';
+import { useForm } from 'react-hook-form';
+import FormController from '@/components/form-checking-controller/form-checking-controller';
 
 const EditForm = (props) => {
-  const dispatch = useDispatch();
-
   const { name: userName, email, phone } = props.currentUser;
 
-  const [newInformation, setNewInformation] = useState({
-    userName,
-    email,
-    phone,
-  });
+  const dispatch = useDispatch();
 
-  const onChangeInput = (e) => {
-    const { id, value } = e.target;
-    setNewInformation({
-      ...newInformation,
-      [id]: value,
-    });
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues: { userName, email, phone } });
 
-  const onUpdateHandler = async (e) => {
-    e.preventDefault();
+  const onUpdateHandler = async (data) => {
     const newData = {
       ...props.currentUser,
-      name: newInformation.userName,
-      email: newInformation.email,
-      phone: newInformation.phone,
+      name: data.userName,
+      email: data.email,
+      phone: data.phone,
     };
     try {
       await axios.put(`${API_URL}/users/${props.currentUser.id}`, newData);
@@ -46,31 +38,41 @@ const EditForm = (props) => {
       <Typography variant="h4" className="edit__title">
         Edit user
       </Typography>
-      <form className="edit__form" onSubmit={onUpdateHandler}>
-        <TextField
-          variant="outlined"
-          label="Name"
-          className="edit__input"
-          id="userName"
-          onChange={onChangeInput}
-          value={newInformation.userName}
+      <form className="edit__form" onSubmit={handleSubmit(onUpdateHandler)}>
+        <FormController
+          err={errors.userName}
+          defaultParam={userName}
+          labelName="Name"
+          textHelp="Name is required!"
+          rulesValidation={{ required: true }}
+          name="userName"
+          control={control}
         />
-        <TextField
-          variant="outlined"
-          label="Email"
-          className="edit__input"
-          id="email"
-          onChange={onChangeInput}
-          value={newInformation.email}
+        <FormController
+          err={errors.email}
+          defaultParam={email}
+          labelName="Email"
+          textHelp="Email is required!"
+          rulesValidation={{
+            required: true,
+            pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+          }}
+          name="email"
+          control={control}
         />
-        <TextField
-          variant="outlined"
-          label="Phone"
-          className="edit__input"
-          id="phone"
-          onChange={onChangeInput}
-          value={newInformation.phone}
+        <FormController
+          err={errors.phone}
+          defaultParam={phone}
+          labelName="Phone"
+          textHelp="Invalid phone! Only numbers"
+          rulesValidation={{
+            required: true,
+            pattern: /^[0-9]+$/,
+          }}
+          name="phone"
+          control={control}
         />
+
         <Button
           color="secondary"
           variant="contained"

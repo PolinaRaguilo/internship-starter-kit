@@ -1,38 +1,29 @@
 import { Button, Container, TextField, Typography } from '@material-ui/core';
 import '@/components/add-user-form/add-user-form.css';
 import { Link, useHistory } from 'react-router-dom';
-import { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '@/config/constants';
 import { useDispatch } from 'react-redux';
 import { fethcUsers } from '@/redux/actions/usersAction';
 import { nanoid } from 'nanoid';
+import { useForm } from 'react-hook-form';
 
 const AddUserForm = () => {
-  const initialUser = {
-    name: '',
-    email: '',
-    phone: '',
-  };
-  const [newUser, setNewUser] = useState(initialUser);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const dispatch = useDispatch();
   const history = useHistory();
-  const onInputChange = (e) => {
-    const { id, value } = e.target;
-    setNewUser({
-      ...newUser,
-      [id]: value,
-    });
-  };
 
-  const addUser = async (e) => {
-    e.preventDefault();
+  const addUser = async (data) => {
     try {
       await axios.post(`${API_URL}/users`, {
         id: nanoid(5),
-        ...newUser,
+        ...data,
       });
-      setNewUser(initialUser);
       dispatch(fethcUsers());
       history.push('/');
     } catch (err) {
@@ -45,36 +36,42 @@ const AddUserForm = () => {
       <Typography variant="h4" className="add-title">
         Add new user
       </Typography>
-      <form action="submit" onSubmit={addUser}>
+      <form action="submit" onSubmit={handleSubmit(addUser)}>
         <Container>
           <TextField
-            id="name"
+            error={errors.name ? true : false}
             label="Name"
             variant="outlined"
             className="add-input"
-            value={newUser.name}
-            onChange={onInputChange}
+            helperText={errors.name && 'Name is required!'}
+            {...register('name', { required: true })}
           />
         </Container>
         <Container>
           <TextField
-            id="email"
+            error={errors.email ? true : false}
             label="Email"
             variant="outlined"
             className="add-input"
-            value={newUser.email}
-            onChange={onInputChange}
+            helperText={errors.email && 'Invalid email!'}
+            {...register('email', {
+              required: true,
+              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+            })}
           />
         </Container>
         <Container>
           <TextField
-            id="phone"
+            error={errors.phone ? true : false}
             label="Phone"
             variant="outlined"
             className="add-input"
-            value={newUser.phone}
-            onChange={onInputChange}
-          />
+            helperText={errors.phone && 'Invalid phone! Only numbers'}
+            {...register('phone', {
+              required: true,
+              pattern: /^[0-9]+$/,
+            })}
+          ></TextField>
         </Container>
         <Button
           type="submit"
