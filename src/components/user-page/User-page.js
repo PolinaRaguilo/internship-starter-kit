@@ -21,15 +21,15 @@ const UserPage = () => {
   if (isLoading) {
     return <Typography variant="h4">Loading...</Typography>;
   }
-  const currUser = usersTableData.find((item) => item.id === +currentId);
+  const currUser = usersTableData.find((item) => String(item.id) === currentId);
 
   if (!currUser) {
     return <Typography variant="h4">No such user...</Typography>;
   }
 
   const { name: userName, email, website, phone } = currUser;
-  const { city, street, suite, zipcode } = currUser.address;
-  const { name } = currUser.company;
+  const { city, street, suite, zipcode } = currUser.address || {};
+  const { name } = currUser.company || {};
 
   return (
     <Container className="user-page__wrapper">
